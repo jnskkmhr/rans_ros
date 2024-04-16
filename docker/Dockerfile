@@ -1,7 +1,7 @@
 FROM osrf/ros:noetic-desktop
 
 # Standard package
-RUN apt-get update && apt-get install -y git vim wget byobu
+RUN apt-get update && apt-get install -y git vim wget byobu zip unzip
 
 # ROS build dependencies
 RUN sh \
