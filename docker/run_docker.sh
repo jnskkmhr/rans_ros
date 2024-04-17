@@ -8,4 +8,4 @@ docker run --name rans-ros-container -it --gpus all \
 -v $HOME/.Xauthority:/root/.Xauthority \
 -v /dev/:/dev/ \
 -v $PWD:/home/ros1_ws/src/$PACKAGE_NAME \
-rans-ros:latest ./docker/entry_point.sh
+rans-ros:latest /home/ros1_ws/src/rans_ros/docker/entrypoint.sh

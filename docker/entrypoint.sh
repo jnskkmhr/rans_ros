@@ -13,3 +13,9 @@ catkin build
 
 # install extra packages
 apt-get update && apt-get install -y ros-noetic-realsense2-camera
+
+# source workspace
+source devel/setup.bash
+
+# get inside docker bash
+bash
