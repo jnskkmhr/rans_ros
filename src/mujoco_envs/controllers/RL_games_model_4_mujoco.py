@@ -149,10 +149,12 @@ class RLGamesModel:
             siny_cosp = 2 * target_heading[0] * target_heading[3]
             cosy_cosp = 1 - 2 * (target_heading[3] * target_heading[3])
             target_heading_angle = np.arctan2(siny_cosp, cosy_cosp)
-            target_position[0] += fp_footprint_radius * np.cos(target_heading_angle)
-            target_position[1] += fp_footprint_radius * np.sin(target_heading_angle)
             
-            self.position_target = target_position
+            target_position_clone = target_position.copy()
+            target_position_clone[0] += fp_footprint_radius * np.cos(target_heading_angle)
+            target_position_clone[1] += fp_footprint_radius * np.sin(target_heading_angle)
+            
+            self.position_target = target_position_clone
             self.orientation_target = target_heading
             self.mode = mode
         else:
@@ -260,7 +262,7 @@ class RLGamesModel:
             )
             heading_target = np.arctan2(siny_cosp_target, cosy_cosp_target)
             
-            anchor_positions = self.position_target.clone()
+            anchor_positions = self.position_target.copy()
             anchor_positions[0] += target_to_cone_dist * np.cos(heading_target)
             anchor_positions[1] += target_to_cone_dist * np.sin(heading_target)
             goal_headings = np.arctan2(

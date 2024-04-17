@@ -182,12 +182,11 @@ class RLPlayerNode:
         """
         self.state = self.getObs()
         self.action = self.hl_controller.getAction(self.state, time=run_time)
-        # self.action = self.action * self.thruster_mask
         action = self.remap_actions(self.action)
         lifting_active = 1
         action.insert(0, lifting_active)
         self.thruster_msg.data = action
-        # self.action_pub.publish(self.thruster_msg)
+        self.action_pub.publish(self.thruster_msg)
 
     def print_logs(self) -> None:
         """
