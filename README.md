@@ -7,7 +7,7 @@ cd {/path/to/this/package}
 ./docker/run_docker.sh
 ```
 
-## 2. Install dependencies & build package
+<!-- ## 2. Install dependencies & build package
 
 Install dependencies
 ```bash
@@ -22,9 +22,9 @@ Build package
 cd /home/ros1_ws
 mkdir build logs devel
 catkin build
-```
+``` -->
 
-## 3. Run experiment
+## 2. Run experiment
 
 <details><summary><b>docking</b></summary>
 
