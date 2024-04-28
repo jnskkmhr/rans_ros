@@ -7,7 +7,7 @@ import os
 
 import rospy
 from std_msgs.msg import ByteMultiArray
-from geometry_msgs.msg import PoseStamped, Point, Pose
+from geometry_msgs.msg import PoseStamped, Pose
 
 from ros.ros_utils import derive_velocities
 from mujoco_envs.controllers.hl_controllers import (
@@ -70,7 +70,7 @@ class RLPlayerNode:
             "/vrpn_client_node/FP_exp_RL/pose", PoseStamped, self.pose_callback
         )
         self.goal_sub = rospy.Subscriber(
-            "/spacer_floating_platform/goal", Point, self.goal_callback
+            "/vrpn_client_node/FPB/pose", PoseStamped, self.goal_callback
         )
         self.action_pub = rospy.Publisher(
             "/spacer_floating_platform/valves/input", ByteMultiArray, queue_size=1
@@ -164,14 +164,19 @@ class RLPlayerNode:
             self.time_buffer, self.pose_buffer
         )
 
-    def goal_callback(self, msg: Point) -> None:
+    def goal_callback(self, msg: PoseStamped) -> None:
         """
         Callback for the goal topic. It updates the task data with the new goal data.
 
         Args:
             msg (Point): The goal message."""
 
-        self.hl_controller.setGoal(np.array([msg.x, msg.y, msg.z]))
+        pos = msg.pose.position
+        quat = msg.pose.orientation
+        x, y = pos.x, pos.y
+        qx, qy, qz, qw = quat.x, quat.y, quat.z, quat.w
+        z = np.arctan2(2*(qw*qz + qx*qy), 1 - 2*(qy**2 + qz**2))
+        self.hl_controller.setGoal(np.array([x, y, z]))
 
     def get_action(self, run_time: float, lifting_active: int = 1) -> None:
         """
